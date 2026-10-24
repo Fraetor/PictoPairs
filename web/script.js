@@ -2,8 +2,6 @@
 // script.js
 // Author: James and Adrian
 
-
-
 const ip = "10.249.91.201";
 const socket = new WebSocket(`ws://${ip}:12345`);
 const canvas = document.querySelector("#canvas");
@@ -30,28 +28,25 @@ function receiveEvent(event) {
     const data = new Uint8Array(event.data);
     console.log("Received:", data);
     const [x1, y1, x2, y2, op] = Array.from(data);
-    const colour = op == 1 ? "black" : "white";
-    const size = op == 1 ? 1 : 5;
-    drawLine(x1, y1, x2, y2, colour, size)
+    drawLine(x1, y1, x2, y2, op);
 }
 
 function sendEvent(x1, y1, x2, y2, op) {
-    console.log(`Sending: (${x1},${y1},${x2},${y2},${op})`)
+    console.log(`Sending: (${x1},${y1},${x2},${y2},${op})`);
     socket.send(Uint8Array.from([x1, y1, x2, y2, op]));
-    const colour = op == 1 ? "black" : "white";
-    const size = op == 1 ? 1 : 5;
-    drawLine(x1, y1, x2, y2, colour, size)
+    drawLine(x1, y1, x2, y2, op);
 }
 
-function drawLine(x1, y1, x2, y2, colour, size) {
+function drawLine(x1, y1, x2, y2, op) {
+    ctx.fillStyle = op == 1 ? "black" : "white";
+    const size = op == 1 ? 1 : 7;
     const x_diff = x2 - x1;
     const y_diff = y2 - y1;
-    const half_size = Math.floor(size / 2)
+    const half_size = Math.floor(size / 2);
     const steps = Math.max(Math.abs(x_diff), Math.abs(y_diff));
     for (let step = 0; step < steps; step++) {
         const x = x1 + Math.floor((step / steps) * x_diff) - half_size
         const y = y1 + Math.floor((step / steps) * y_diff) - half_size
-        ctx.fillStyle = colour;
         ctx.fillRect(x, y, size, size);
     }
 }
