@@ -4,8 +4,9 @@ import threading
 from tkinter import *
 
 import cv2
-from CDRT_Canvas import HEIGHT_PIX, WIDTH_PIX, CRDT_Canvas
 from PIL import Image, ImageTk
+
+from CRDT_Canvas import HEIGHT_PIX, WIDTH_PIX, CRDT_Canvas
 
 SCALE = 8
 
