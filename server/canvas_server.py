@@ -17,7 +17,7 @@ def handle_client(conn, addr, active_clients):
 
     try:
         while True:
-            # recieve event from client
+            # Receive event from client.
             data = conn.recv(5)
 
             if not data:
@@ -75,17 +75,13 @@ def main():
             print(f"[ACTIVE CLIENTS] {threading.active_count() - 1}")
             with clients_lock:
                 print(active_clients)
-
     except KeyboardInterrupt:
         print("\nShutting down server...")
-
     finally:
         server.close()
-
         with clients_lock:
             for conn, addr in active_clients:
                 conn.close()
-
             clients.clear()
 
 
