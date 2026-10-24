@@ -6,7 +6,7 @@ from tkinter import *
 import cv2
 from PIL import Image, ImageTk
 
-from CRDT_Canvas import HEIGHT_PIX, WIDTH_PIX, CRDT_Canvas
+from CRDT_canvas import HEIGHT_PIX, WIDTH_PIX, CRDT_Canvas
 
 SCALE = 8
 
