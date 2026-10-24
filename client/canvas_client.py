@@ -8,7 +8,7 @@ from PIL import Image, ImageTk
 
 from CRDT_canvas import HEIGHT_PIX, WIDTH_PIX, CRDT_Canvas
 
-SCALE = 8
+SCALE = 6
 
 
 class Sketchpad(Canvas):
@@ -29,7 +29,7 @@ class Sketchpad(Canvas):
         self.display_image()
 
     def save_draw_posn(self, event):
-        self.lastx, self.lasty = event.x // SCALE, event.y // SCALE
+        self.lastx, self.lasty = min(max(0, event.x //SCALE), WIDTH_PIX), min(max(0, event.y//SCALE), WIDTH_PIX)
 
     def data_PIL(self):
         img = cv2.resize(
@@ -49,10 +49,10 @@ class Sketchpad(Canvas):
     def add_line(self, event):
 
         self.cdrt.update_draw(
-            self.lastx, self.lasty, event.x // SCALE, event.y // SCALE
+            self.lastx, self.lasty, min(max(0, event.x //SCALE), WIDTH_PIX), min(max(0, event.y//SCALE), WIDTH_PIX)
         )
         self.client.send(
-            bytes((self.lastx, self.lasty, event.x // SCALE, event.y // SCALE, 1))
+            bytes((self.lastx, self.lasty, min(max(0, event.x //SCALE), WIDTH_PIX), min(max(0, event.y//SCALE), WIDTH_PIX), 1))
         )
 
         self.display_image()
@@ -61,10 +61,10 @@ class Sketchpad(Canvas):
     def del_line(self, event):
 
         self.cdrt.update_erase(
-            self.lastx, self.lasty, event.x // SCALE, event.y // SCALE
+            self.lastx, self.lasty, min(max(0, event.x //SCALE), WIDTH_PIX), min(max(0, event.y//SCALE), WIDTH_PIX)
         )
         self.client.send(
-            bytes((self.lastx, self.lasty, event.x // SCALE, event.y // SCALE, 0))
+            bytes((self.lastx, self.lasty, min(max(0, event.x //SCALE), WIDTH_PIX), min(max(0, event.y//SCALE), WIDTH_PIX), 0))
         )
 
         self.display_image()
