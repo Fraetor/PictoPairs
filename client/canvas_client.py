@@ -91,8 +91,6 @@ def recv_updates(client: socket.socket, canvas: CRDT_Canvas):
 
             print("Server: ", event)
             canvas.merge(event)
-    except:
-        pass
     finally:
         client.close()
 
@@ -129,10 +127,10 @@ def main(HOST, PORT):
             root.update_idletasks()
             sketch.display_image()
             root.update()
-    except:
+    finally:
         client.send(bytes((0,)))
         client.close()
-        quit()
+        sys.exit()
 
 
 host, port = "127.0.0.1", 12345
