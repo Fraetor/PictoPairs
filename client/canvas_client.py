@@ -82,7 +82,6 @@ def recv_updates(client: socket.socket, canvas: CRDT_Canvas):
     try:
         while True:
             data = client.recv(5)
-            # print("Server:", data.decode())
 
             if not data:
                 continue
@@ -101,11 +100,11 @@ def main(HOST, PORT):
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client.connect((HOST, PORT))
 
-    recieve_thread = threading.Thread(
+    receive_thread = threading.Thread(
         target=recv_updates, args=(client, canvas), daemon=True
     )
 
-    recieve_thread.start()
+    receive_thread.start()
 
     root = Tk()
     root.columnconfigure(0, weight=1)
