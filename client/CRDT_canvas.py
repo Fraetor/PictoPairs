@@ -7,8 +7,8 @@ HEIGHT_PIX = 80
 
 class CRDT_Canvas:
     def __init__(self) -> None:
-        self.data = np.array = np.zeros(
-            shape=(HEIGHT_PIX, WIDTH_PIX, 3), dtype=np.uint8
+        self.data = np.array = np.full(
+            shape=(HEIGHT_PIX, WIDTH_PIX, 3), fill_value=(255,255,255), dtype=np.uint8
         )
         self.events: list[tuple[int]] = []
 
@@ -32,8 +32,8 @@ class CRDT_Canvas:
             self.data,
             event[:2],
             event[2:4],
-            (255, 0, 0) if event[4] == 1 else (255, 255, 255),
-            1,
+            (0, 0, 0) if event[4] == 1 else (255, 255, 255),
+            1 if event[4] == 1 else 5,
         )
 
         # Add event to 'events'
