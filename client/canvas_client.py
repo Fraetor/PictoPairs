@@ -6,7 +6,7 @@ from tkinter import *
 import cv2
 from PIL import Image, ImageTk
 
-from CRDT_Canvas import HEIGHT_PIX, WIDTH_PIX, CRDT_Canvas
+from CRDT_canvas import HEIGHT_PIX, WIDTH_PIX, CRDT_Canvas
 
 SCALE = 8
 
@@ -15,8 +15,10 @@ class Sketchpad(Canvas):
     def __init__(self, parent, cdrt: CRDT_Canvas, client: socket.socket, **kwargs):
         super().__init__(parent, **kwargs)
 
-        self.bind("<Button-1>", self.save_posn)
+        self.bind("<Button-1>", self.save_draw_posn)
         self.bind("<B1-Motion>", self.add_line)
+        self.bind("<Button-2>", self.save_draw_posn)
+        self.bind("<B2-Motion>", self.del_line)
         self.bind("<Destroy>", self.end)
 
         self.close = False
@@ -26,7 +28,7 @@ class Sketchpad(Canvas):
         self.displayim = self.create_image((0, 0), image=self.data_PIL(), anchor="nw")
         self.display_image()
 
-    def save_posn(self, event):
+    def save_draw_posn(self, event):
         self.lastx, self.lasty = event.x // SCALE, event.y // SCALE
 
     def data_PIL(self):
@@ -50,11 +52,23 @@ class Sketchpad(Canvas):
             self.lastx, self.lasty, event.x // SCALE, event.y // SCALE
         )
         self.client.send(
+            bytes((self.lastx, self.lasty, event.x // SCALE, event.y // SCALE, 0))
+        )
+
+        self.display_image()
+        self.save_draw_posn(event)
+
+    def del_line(self, event):
+
+        self.cdrt.update_draw(
+            self.lastx, self.lasty, event.x // SCALE, event.y // SCALE
+        )
+        self.client.send(
             bytes((self.lastx, self.lasty, event.x // SCALE, event.y // SCALE, 1))
         )
 
         self.display_image()
-        self.save_posn(event)
+        self.save_draw_posn(event)
 
     def end(self, events):
         self.close = True
