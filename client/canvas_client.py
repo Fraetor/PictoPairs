@@ -17,8 +17,8 @@ class Sketchpad(Canvas):
 
         self.bind("<Button-1>", self.save_draw_posn)
         self.bind("<B1-Motion>", self.add_line)
-        self.bind("<Button-2>", self.save_draw_posn)
-        self.bind("<B2-Motion>", self.del_line)
+        self.bind("<Button-3>", self.save_draw_posn)
+        self.bind("<B3-Motion>", self.del_line)
         self.bind("<Destroy>", self.end)
 
         self.close = False
@@ -52,7 +52,7 @@ class Sketchpad(Canvas):
             self.lastx, self.lasty, event.x // SCALE, event.y // SCALE
         )
         self.client.send(
-            bytes((self.lastx, self.lasty, event.x // SCALE, event.y // SCALE, 0))
+            bytes((self.lastx, self.lasty, event.x // SCALE, event.y // SCALE, 1))
         )
 
         self.display_image()
@@ -60,11 +60,11 @@ class Sketchpad(Canvas):
 
     def del_line(self, event):
 
-        self.cdrt.update_draw(
+        self.cdrt.update_erase(
             self.lastx, self.lasty, event.x // SCALE, event.y // SCALE
         )
         self.client.send(
-            bytes((self.lastx, self.lasty, event.x // SCALE, event.y // SCALE, 1))
+            bytes((self.lastx, self.lasty, event.x // SCALE, event.y // SCALE, 0))
         )
 
         self.display_image()

@@ -36,5 +36,6 @@ class CRDT_Canvas:
             1 if event[4] == 1 else 5,
         )
 
+        print(event[4])
         # Add event to 'events'
         self.events.append(event)
