@@ -82,7 +82,6 @@ def recv_updates(client: socket.socket, canvas: CRDT_Canvas):
     try:
         while True:
             data = client.recv(5)
-            # print("Server:", data.decode())
 
             if not data:
                 continue
