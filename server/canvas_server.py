@@ -1,19 +1,16 @@
 import socket
 import threading
-from dataclasses import dataclass
-import numpy as np
-import cv2
-
 
 HOST = "0.0.0.0"
 PORT = 12345
 
-WIDTH_PIX  = 228
+WIDTH_PIX = 228
 HEIGHT_PIX = 80
 SCALE = 16
 
 clients = []
 clients_lock = threading.Lock()
+
 
 def handle_client(conn, addr, active_clients):
     print(f"[CONNECTED] {addr}")
@@ -29,14 +26,16 @@ def handle_client(conn, addr, active_clients):
             message = tuple(data)
             print(f"[{addr}] {message}")
 
-            if message == (0,): raise ConnectionResetError
+            if message == (0,):
+                raise ConnectionResetError
 
-            #Forward it to other clients
+            # Forward it to other clients
             with clients_lock:
                 for ex_conn, ex_addr in active_clients:
-                    if ex_addr == addr: continue
+                    if ex_addr == addr:
+                        continue
                     ex_conn.send(data)
-                
+
     except (ConnectionResetError, OSError):
         pass
 
@@ -66,12 +65,10 @@ def main():
             conn, addr = server.accept()
 
             with clients_lock:
-                active_clients.append((conn,addr))
+                active_clients.append((conn, addr))
 
             thread = threading.Thread(
-                target=handle_client,
-                args=(conn, addr, active_clients),
-                daemon=True
+                target=handle_client, args=(conn, addr, active_clients), daemon=True
             )
             thread.start()
 
