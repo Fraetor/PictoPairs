@@ -3,38 +3,9 @@
 // Author: James and Adrian
 
 
-class CRDT {
-
-}
-
 
 const ip = "10.249.91.201";
 const socket = new WebSocket(`ws://${ip}:12345`);
-
-// Receive binary messages as ArrayBuffer objects.
-socket.binaryType = "arraybuffer";
-
-socket.addEventListener("open", () => {
-    console.log("Connected to Python WebSocket server");
-});
-
-socket.addEventListener("message", (event) => {
-    const data = new Uint8Array(event.data);
-    console.log("Received:", data);
-    const [x1, y1, x2, y2, op] = Array.from(data);
-    const colour = op == 1 ? "black" : "white";
-    const size = op == 1 ? 1 : 5;
-    drawLine(x1, y1, x2, y2, colour, size)
-});
-
-socket.addEventListener("close", () => {
-    console.log("Disconnected from server");
-});
-
-socket.addEventListener("error", (error) => {
-    console.error("WebSocket error:", error);
-});
-
 const canvas = document.querySelector("#canvas");
 const ctx = canvas.getContext("2d");
 const scale = window.getComputedStyle(document.body).getPropertyValue("--scale");
@@ -53,6 +24,15 @@ function toggleErase(event) {
         erase_btn.textContent = "Erasing 🧼";
         draw_op = 0;
     }
+}
+
+function receiveEvent(event) {
+    const data = new Uint8Array(event.data);
+    console.log("Received:", data);
+    const [x1, y1, x2, y2, op] = Array.from(data);
+    const colour = op == 1 ? "black" : "white";
+    const size = op == 1 ? 1 : 5;
+    drawLine(x1, y1, x2, y2, colour, size)
 }
 
 function sendEvent(x1, y1, x2, y2, op) {
@@ -111,3 +91,20 @@ canvas.addEventListener("mousedown", startDraw);
 canvas.addEventListener("mousemove", contDraw);
 window.addEventListener("mouseup", endDraw);
 erase_btn.addEventListener("click", toggleErase);
+
+// Receive binary messages as ArrayBuffer objects.
+socket.binaryType = "arraybuffer";
+
+socket.addEventListener("open", () => {
+    console.log("Connected to Python WebSocket server");
+});
+
+socket.addEventListener("message", receiveEvent);
+
+socket.addEventListener("close", () => {
+    console.log("Disconnected from server");
+});
+
+socket.addEventListener("error", (error) => {
+    console.error("WebSocket error:", error);
+});
