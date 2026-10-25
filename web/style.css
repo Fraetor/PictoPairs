@@ -1,5 +1,5 @@
 :root {
-    --scale: 4
+    --scale: round(down, calc(100svw / 220px))
 }
 
 body {
@@ -10,9 +10,7 @@ body {
 
 #canvas {
     width: calc(var(--scale) * 220px);
-    max-width: 100svw;
     height: calc(var(--scale) * 80px);
-    max-height: 100svh;
     image-rendering: pixelated;
     border: 16px ridge goldenrod;
     background-color: white;
