@@ -79,7 +79,7 @@ function displayImage(arr) {
     console.log(`Creating image element for URL ${image_url}`);
     const img = document.createElement("img");
     img.src = image_url;
-    results.append(img);
+    results.prepend(img);
     drawing.hidden = true;
     results.hidden = false;
 }
