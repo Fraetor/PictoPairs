@@ -59,7 +59,7 @@ class PictoChatServe:
             n_of_players = len(self.active_clients)
             # Assign players to teams
             await asyncio.sleep(2)
-            if n_of_players < 4:
+            if n_of_players < 2:
                 continue  # Wait for players
 
             players = self.active_clients.copy()
