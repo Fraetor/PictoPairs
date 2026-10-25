@@ -2,11 +2,11 @@
 // script.js
 // Author: James and Adrian
 
-const ip = "10.249.91.201";
-const socket = new WebSocket(`ws://${ip}:12345`);
+const ip = "pictopair.frost.cx";
+const socket = new WebSocket(`wss://${ip}`);
 const canvas = document.querySelector("#canvas");
 const ctx = canvas.getContext("2d");
-const scale = window.getComputedStyle(document.body).getPropertyValue("--scale");
+const scale = Math.floor(window.innerWidth / 220)
 const erase_btn = document.querySelector("#erase");
 
 let draw_x = 0;
@@ -25,7 +25,7 @@ function toggleErase(event) {
 }
 
 function receiveEvent(event) {
-    const data = new Uint8Array(event.data);
+    const data = new Uint8ClampedArray(event.data);
     console.log("Received:", data);
     const [x1, y1, x2, y2, op] = Array.from(data);
     drawLine(x1, y1, x2, y2, op);
@@ -33,7 +33,7 @@ function receiveEvent(event) {
 
 function sendEvent(x1, y1, x2, y2, op) {
     console.log(`Sending: (${x1},${y1},${x2},${y2},${op})`);
-    socket.send(Uint8Array.from([x1, y1, x2, y2, op]));
+    socket.send(Uint8ClampedArray.from([x1, y1, x2, y2, op]));
     drawLine(x1, y1, x2, y2, op);
 }
 
@@ -54,7 +54,6 @@ function drawLine(x1, y1, x2, y2, op) {
 // event.offsetX, event.offsetY gives the (x,y) offset
 // from the edge of the canvas.
 function startDraw(event) {
-    console.log(`Mouse button ${event.button}`);
     draw_x = Math.floor(event.offsetX / scale);
     draw_y = Math.floor(event.offsetY / scale);
     isDrawing = true;
@@ -81,10 +80,11 @@ function endDraw(event) {
     }
 }
 
-// Add the event listeners for mousedown, mousemove, and mouseup.
-canvas.addEventListener("mousedown", startDraw);
-canvas.addEventListener("mousemove", contDraw);
-window.addEventListener("mouseup", endDraw);
+// Add the event listeners for pointer.
+// Unlike mouse events these support touch screens.
+canvas.addEventListener("pointerdown", startDraw);
+canvas.addEventListener("pointermove", contDraw);
+window.addEventListener("pointerup", endDraw);
 erase_btn.addEventListener("click", toggleErase);
 
 // Receive binary messages as ArrayBuffer objects.
