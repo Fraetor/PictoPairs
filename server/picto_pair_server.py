@@ -66,8 +66,7 @@ class PictoChatServe:
             await self.send_prompt()
 
             # Start Timer
-            asyncio.sleep(30)
-
+            await asyncio.sleep(30)
             await self.send_end()
             # Players should send back histories, and clear the canvas
 
