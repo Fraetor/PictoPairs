@@ -88,7 +88,6 @@ class PictoChatServe:
             await self.countdown(12)
 
             # Choose next prompt
-            self.active_prompt = random.choice(DEFAULT_PROMPTS)
 
 
 
