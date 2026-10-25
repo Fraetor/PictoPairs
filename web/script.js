@@ -32,6 +32,9 @@ function toggleErase(event) {
 function receiveEvent(event) {
     console.log(event.data);
     const data = new Uint8ClampedArray(event.data);
+    if (data.length == 0) {
+        console.log("Zero length message received; skipping.");
+    }
     const [x1, y1, x2, y2, op, ...the_rest] = Array.from(data);
     if (op == 0 || op == 1) {
         drawLine(x1, y1, x2, y2, op);
