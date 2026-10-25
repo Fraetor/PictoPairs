@@ -30,6 +30,7 @@ function toggleErase(event) {
 }
 
 function receiveEvent(event) {
+    console.log(event.data);
     const data = new Uint8ClampedArray(event.data);
     const [x1, y1, x2, y2, op, ...the_rest] = Array.from(data);
     if (op == 0 || op == 1) {
@@ -53,7 +54,7 @@ function receiveEvent(event) {
         alert("Put down your pens!");
         sendImage();
     } else {
-        console.error("Unknown event received.", data);
+        console.error(`Unknown event received with op code ${op}.`, data);
     }
 }
 
