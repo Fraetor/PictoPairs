@@ -24,3 +24,8 @@ h1 {
 #prompt {
     font-size: xx-large;
 }
+
+#results {
+    display: flex;
+    /* flex-wrap: wrap; */
+}
