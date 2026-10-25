@@ -8,12 +8,13 @@ const canvas = document.querySelector("#canvas");
 const ctx = canvas.getContext("2d");
 const scale = Math.floor(canvas.offsetWidth / 220);
 const erase_btn = document.querySelector("#erase");
+const prompt = document.querySelector("#prompt");
 
 let draw_x = 0;
 let draw_y = 0;
 let draw_op = 1;
 let isDrawing = false;
-let canDraw = true;
+let canDraw = false;
 
 function toggleErase(event) {
     if (draw_op == 0) {
@@ -33,10 +34,15 @@ function receiveEvent(event) {
         drawLine(x1, y1, x2, y2, op);
     } else if (op == 254) {
         // Start event.
-        console.log(`Start, prompt: ${the_rest}`);
-    } else if (op) {
-        // End event
-        console.log(`Stop.`);
+        const prompt = new TextDecoder().decode(the_rest);
+        console.log(`Start, prompt: ${prompt}`);
+        prompt.textContent = prompt;
+        canDraw = true;
+    } else if (op == 255) {
+        // End event.
+        console.log(`End, time over!`);
+        canDraw = false;
+        alert("Put down your pens!");
     } else {
         console.error("Unknown event received.", data);
     }
