@@ -2,8 +2,8 @@
 // script.js
 // Author: James and Adrian
 
-const ip = "10.249.91.201";
-const socket = new WebSocket(`ws://${ip}:12345`);
+const ip = "pictopair.frost.cx";
+const socket = new WebSocket(`wss://${ip}`);
 const canvas = document.querySelector("#canvas");
 const ctx = canvas.getContext("2d");
 const scale = window.getComputedStyle(document.body).getPropertyValue("--scale");

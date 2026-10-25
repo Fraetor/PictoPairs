@@ -2,7 +2,7 @@ import asyncio
 
 from websockets.asyncio.server import serve
 
-HOST = "0.0.0.0"
+HOST = "::1"
 PORT = 12345
 
 WIDTH_PIX = 228
