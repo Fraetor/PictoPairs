@@ -67,7 +67,7 @@ class PictoChatServe:
             random.shuffle(players)
             if n_of_players % 2 != 0:
                 #Solo player
-                self.pairs += (players[0], None)
+                self.pairs = [(players[0], None)]
                 n_of_players -= 1
                 players.pop(0)
 
