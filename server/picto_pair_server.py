@@ -53,6 +53,8 @@ class PictoChatServe:
 
     async def game_loop(self):
         while True:
+            self.pairs = []  # Active pairs
+            self.art   = []
             n_of_players = len(self.active_clients)
             # Assign players to teams
             if n_of_players < 4 or n_of_players % 2 != 0:
