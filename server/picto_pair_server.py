@@ -23,9 +23,8 @@ class PictoChatServe:
 
         self.pairs = []  # Active pairs
         ser = threading.Thread(target=self.serve)
-        ser.start()
         try:
-            ser.run()
+            ser.start()
             asyncio.run(self.game_loop())
         except KeyboardInterrupt:
             print("\nShutting down server...")
