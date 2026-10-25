@@ -54,7 +54,6 @@ function drawLine(x1, y1, x2, y2, op) {
 // event.offsetX, event.offsetY gives the (x,y) offset
 // from the edge of the canvas.
 function startDraw(event) {
-    console.log(`Mouse button ${event.button}`);
     draw_x = Math.floor(event.offsetX / scale);
     draw_y = Math.floor(event.offsetY / scale);
     isDrawing = true;
