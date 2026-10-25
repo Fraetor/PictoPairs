@@ -1,7 +1,7 @@
 import asyncio
 import random
 import threading
-
+import time
 from websockets.asyncio.server import serve
 
 HOST = "::1"
@@ -22,6 +22,7 @@ class PictoChatServe:
         self.active_prompt = "A horse hosting HackNotts"
 
         self.pairs = []  # Active pairs
+
         ser = threading.Thread(target=self.serve)
         try:
             ser.start()
@@ -63,7 +64,17 @@ class PictoChatServe:
 
             # Send prompt (start drawing!)
             await self.send_prompt()
-            break
+
+            # Start Timer
+            asyncio.sleep(30)
+
+            await self.send_end()
+            # Players should send back histories, and clear the canvas
+
+    async def send_end(self):
+            for client in self.active_clients:
+                print("[SENDING PROMPT]")
+                await client.send(bytes((0, 0, 0, 0, 255)))
 
     async def send_prompt(self):
         for client in self.active_clients:
