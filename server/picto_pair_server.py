@@ -11,17 +11,21 @@ WIDTH_PIX = 228
 HEIGHT_PIX = 80
 SCALE = 16
 
-#
-#
-#
-
+DEFAULT_PROMPTS = ["A horse hosting HackNotts",
+                   "Volcano in A32",
+                   "The joy of greggs sausage roll",
+                   "The smallest hacker ever",
+                   "Haskell: finally useful",
+                   "Hamster playing tetris",
+                   "Team 9 wins Hacknotts!"]
 
 class PictoChatServe:
     def __init__(self):
         self.active_clients = set()
-        self.active_prompt = "A horse hosting HackNotts"
+        self.active_prompt = random.shuffle(DEFAULT_PROMPTS)
 
         self.pairs = []  # Active pairs
+        self.art   = []
 
         ser = threading.Thread(target=self.serve)
         try:
@@ -68,7 +72,19 @@ class PictoChatServe:
             # Start Timer
             await asyncio.sleep(30)
             await self.send_end()
+            await asyncio.sleep(4)
+
             # Players should send back histories, and clear the canvas
+            await self.send_art()
+
+            # Choose next prompt
+            self.active_prompt = random.shuffle(DEFAULT_PROMPTS)
+
+    async def send_art(self):
+        for client in self.active_clients:
+            for artist, art in self.art:
+                if artist != client and self.get_pair(client) != artist:
+                    await client.send(art)
 
     async def send_end(self):
             for client in self.active_clients:
@@ -93,8 +109,26 @@ class PictoChatServe:
                     print(f"[ERROR] Expected binary data from {addr}")
                     continue
 
-                message = tuple(data)
-                print(f"[{addr}] {message}")
+                if message.startswith(b'data:'): 
+                    # Art!
+                    self.art.append((websocket, message))
+                    
+                try:
+                    message = tuple(data)
+
+                    # Forward the message to the corresponding pairs
+                    recipient = self.get_pair(websocket)
+    
+                    if recipient == None:
+                        # No pair..
+                        continue
+    
+                    results = await recipient.send(data)
+                    print(f"[{addr}] {message}")
+                except:
+                    # Not a tuple
+                    pass
+                    
 
                 # Preserve the original disconnect command.
                 if message == (0,):
