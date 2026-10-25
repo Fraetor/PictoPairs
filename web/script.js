@@ -37,7 +37,7 @@ function receiveEvent(event) {
         const prompt_text = new TextDecoder().decode(Uint8ClampedArray.from(the_rest));
         console.log(`Start, prompt: ${prompt_text}`);
         prompt.textContent = prompt_text;
-        clearCanvas();
+        clearCanvas(0);
         canDraw = true;
     } else if (op == 255) {
         // End event.
@@ -69,9 +69,10 @@ function drawLine(x1, y1, x2, y2, op) {
     }
 }
 
-function clearCanvas() {
-    for (let i = 0; i < 80; i++) {
-        drawLine(0, i, 255, i, 0);
+function clearCanvas(n) {
+    if (n < 80) {
+        drawLine(0, n, 255, n, 0);
+        setTimeout(clearCanvas, 50, n + 1)
     }
 }
 
