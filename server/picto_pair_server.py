@@ -57,7 +57,7 @@ class PictoChatServe():
             self.pairs = zip(players[:n_of_players/2], players[n_of_players/2:])
             
             # Send prompt (start drawing!)
-            break
+            self.send_promt()
 
     async def send_promt(self):
         async for client in self.active_clients:
