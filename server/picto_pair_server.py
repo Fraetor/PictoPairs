@@ -74,15 +74,21 @@ class PictoChatServe:
 
             await self.countdown(25)
             await self.send_end()
-            await asyncio.sleep(4)
+            await asyncio.sleep(2)
 
             # Players should send back histories, and clear the canvas
             await self.send_art()
 
-            await self.countdown(10)
+            mess = bytes((0,0,0,0, 251))
+            await random.choice(self.active_clients).send(mess) 
+
+            # Everyone gets to see the art
+            await self.countdown(12)
 
             # Choose next prompt
             self.active_prompt = random.choice(DEFAULT_PROMPTS)
+
+
 
     async def countdown(self, seconds):
         count = seconds
@@ -98,7 +104,6 @@ class PictoChatServe:
         for client in self.active_clients:
             for artist, art in self.art:
                 if artist != client:
-                    print("HMMM")
                     mess = bytes((0,0,0,0,253)) + art.encode()
                     print(len(mess)) 
                     print(mess[:20])
@@ -127,6 +132,10 @@ class PictoChatServe:
                 if isinstance(data, str):
                     if data.startswith('data:'):
                         self.art.append((websocket, data))
+                    elif data != "":
+                        self.active_prompt = data
+                    else:
+                        self.active_prompt = random.choice(DEFAULT_PROMPTS)
                 try:
                     message = tuple(data)
 
