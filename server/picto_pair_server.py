@@ -21,7 +21,7 @@ class PictoChatServe():
         self.active_prompt  = "A horse hosting HackNotts"
 
         self.pairs = []    # Active pairs    
-        ser = threading.Thread(target= self.serve())
+        ser = threading.Thread(target= self.serve)
         try:
             ser.run()
             asyncio.run(self.game_loop())
