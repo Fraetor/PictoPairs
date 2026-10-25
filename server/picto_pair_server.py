@@ -89,7 +89,7 @@ class PictoChatServe:
             for artist, art in self.art:
                 if artist != client and self.get_pair(client) != artist:
                     print("HMMM")
-                    await client.send(bytes(0,0,0,0,253) + art.encode())
+                    await client.send(bytes((0,0,0,0,253)) + art.encode())
 
     async def send_end(self):
             for client in self.active_clients:
