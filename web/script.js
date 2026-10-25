@@ -70,7 +70,7 @@ function drawLine(x1, y1, x2, y2, op) {
 }
 
 function clearCanvas() {
-    for (let i; i < 80; i++) {
+    for (let i = 0; i < 80; i++) {
         drawLine(0, i, 255, i, 0);
     }
 }
