@@ -80,7 +80,8 @@ class PictoChatServe:
             await self.send_art()
 
             mess = bytes((0,0,0,0, 251))
-            await random.choice(self.active_clients).send(mess) 
+            choice = random.choice(self.active_clients) 
+            await choice.send(mess) 
 
             # Everyone gets to see the art
             await self.countdown(12)
