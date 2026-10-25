@@ -78,9 +78,10 @@ class PictoChatServe:
 
             # Players should send back histories, and clear the canvas
             await self.send_art()
+            
 
             # Choose next prompt
-            self.active_prompt = random.shuffle(DEFAULT_PROMPTS)
+            self.active_prompt = random.choice(DEFAULT_PROMPTS)
 
     async def send_art(self):
         for client in self.active_clients:
