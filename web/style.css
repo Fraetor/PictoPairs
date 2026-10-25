@@ -27,7 +27,12 @@ h1 {
 
 #results {
     display: flex;
-    background-color: aquamarine;
+    background-color: lemonchiffon;
+    img {
+        border: 1px solid black;
+        width: 440px;
+        height: 160px;
+    }
 }
 
 .finished {
