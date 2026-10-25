@@ -39,6 +39,7 @@ function receiveEvent(event) {
     if (op == 0 || op == 1) {
         drawLine(x1, y1, x2, y2, op);
     } else if (op == 252) {
+        console.log(`Time remaining: ${x1}.`);
         timer.value = x1;
     } else if (op == 253) {
         console.log("Received image.");
@@ -65,7 +66,6 @@ function receiveEvent(event) {
 }
 
 function clearImages() {
-    results.replaceChildren("Some updated content.")
     results.hidden = true;
     drawing.hidden = false;
 }
@@ -103,7 +103,7 @@ function drawLine(x1, y1, x2, y2, op) {
 function clearCanvas(n) {
     if (n < 80) {
         drawLine(0, n, 255, n, 0);
-        setTimeout(clearCanvas, 50, n + 1)
+        setTimeout(clearCanvas, 30, n + 1)
     }
 }
 
