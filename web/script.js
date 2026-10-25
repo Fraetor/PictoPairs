@@ -81,10 +81,11 @@ function endDraw(event) {
     }
 }
 
-// Add the event listeners for mousedown, mousemove, and mouseup.
-canvas.addEventListener("mousedown", startDraw);
-canvas.addEventListener("mousemove", contDraw);
-window.addEventListener("mouseup", endDraw);
+// Add the event listeners for pointer.
+// Unlike mouse events these support touch screens.
+canvas.addEventListener("pointerdown", startDraw);
+canvas.addEventListener("pointermove", contDraw);
+window.addEventListener("pointerup", endDraw);
 erase_btn.addEventListener("click", toggleErase);
 
 // Receive binary messages as ArrayBuffer objects.
