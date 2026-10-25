@@ -73,14 +73,14 @@ class PictoChatServe:
             await self.send_prompt()
 
             # Start Timer
-            await asyncio.sleep(30)
+            await asyncio.sleep(20)
             await self.send_end()
             await asyncio.sleep(4)
 
             # Players should send back histories, and clear the canvas
             await self.send_art()
-            
-            await asyncio.sleep(30)
+
+            await asyncio.sleep(10)
 
 
             # Choose next prompt
@@ -90,7 +90,7 @@ class PictoChatServe:
         print(f"[SENDING ART] {len(self.art)}")
         for client in self.active_clients:
             for artist, art in self.art:
-                if artist != client and self.get_pair(client) != artist:
+                if artist != client:
                     print("HMMM")
                     mess = bytes((0,0,0,0,253)) + art.encode()
                     print(len(mess)) 
