@@ -138,7 +138,7 @@ class PictoChatServe:
                 if isinstance(data, str):
                     if data.startswith('data:'):
                         self.art.append((websocket, data))
-                    elif data != "":
+                    elif data != "" or data == None or data == "Null":
                         self.active_prompt = data
                     else:
                         self.active_prompt = random.choice(DEFAULT_PROMPTS)
