@@ -30,15 +30,16 @@ function toggleErase(event) {
 }
 
 function receiveEvent(event) {
-    console.log(event.data);
     const data = new Uint8ClampedArray(event.data);
+    if (data.length == 0) {
+        console.log("Zero length message received; skipping.");
+    }
     const [x1, y1, x2, y2, op, ...the_rest] = Array.from(data);
     if (op == 0 || op == 1) {
         drawLine(x1, y1, x2, y2, op);
     } else if (op == 253) {
         console.log("Received image.");
-        const image_url = decoder.decode(Uint8Array.from(the_rest))
-        displayImage(image_url)
+        displayImage(the_rest)
     } else if (op == 254) {
         // Start event.
         const prompt_text = decoder.decode(Uint8ClampedArray.from(the_rest));
@@ -61,14 +62,16 @@ function receiveEvent(event) {
 }
 
 function clearImages() {
-    results.replaceChildren()
+    results.replaceChildren("Some updated content.")
     results.hidden = true;
     drawing.hidden = false;
 }
 
-function displayImage(image_url) {
+function displayImage(arr) {
+    const image_url = decoder.decode(Uint8Array.from(arr));
+    console.log(`Creating image element for URL ${image_url}`);
     const img = document.createElement("img");
-    img.href = image_url;
+    img.src = image_url;
     results.append(img);
     drawing.hidden = true;
     results.hidden = false;
