@@ -67,9 +67,9 @@ function clearImages() {
     drawing.hidden = false;
 }
 
-function displayImage() {
-    const image_url = decoder.decode(Uint8Array.from(the_rest))
-    console.log(`Creating image element for URL ${image_url}`)
+function displayImage(arr) {
+    const image_url = decoder.decode(Uint8Array.from(arr));
+    console.log(`Creating image element for URL ${image_url}`);
     const img = document.createElement("img");
     img.href = image_url;
     results.append(img);
