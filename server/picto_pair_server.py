@@ -22,6 +22,7 @@ class PictoChatServe():
         self.pairs = []    # Active pairs    
 
         try:
+            self.game_loop()
             asyncio.run(self.begin_serve())
         except KeyboardInterrupt:
             print("\nShutting down server...")
@@ -58,7 +59,7 @@ class PictoChatServe():
             
             # Send prompt (start drawing!)
             self.send_promt()
-            exit()
+            break
 
     async def send_promt(self):
         async for client in self.active_clients:
