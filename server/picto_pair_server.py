@@ -78,6 +78,7 @@ class PictoChatServe:
 
             # Players should send back histories, and clear the canvas
             await self.send_art()
+            await asyncio.sleep(5)
 
 
             # Choose next prompt
