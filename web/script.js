@@ -8,7 +8,7 @@ const canvas = document.querySelector("#canvas");
 const ctx = canvas.getContext("2d");
 const scale = Math.floor(canvas.offsetWidth / 220);
 const erase_btn = document.querySelector("#erase");
-const prompt = document.querySelector("#prompt");
+const prompt_elem = document.querySelector("#prompt");
 const decoder = new TextDecoder();
 const results = document.querySelector("#results");
 const drawing = document.querySelector("#drawing");
@@ -38,6 +38,10 @@ function receiveEvent(event) {
     const [x1, y1, x2, y2, op, ...the_rest] = Array.from(data);
     if (op == 0 || op == 1) {
         drawLine(x1, y1, x2, y2, op);
+    } else if (op == 251) {
+        console.log("Asking for new prompt.");
+        const new_prompt = window.prompt("Enter a new drawing prompt.")
+        socket.send(new_prompt);
     } else if (op == 252) {
         console.log(`Time remaining: ${x1}.`);
         timer.value = x1;
@@ -48,16 +52,16 @@ function receiveEvent(event) {
         // Start event.
         const prompt_text = decoder.decode(Uint8ClampedArray.from(the_rest));
         console.log(`Start, prompt: ${prompt_text}`);
-        prompt.textContent = prompt_text;
-        prompt.classList.remove("finished");
+        prompt_elem.textContent = prompt_text;
+        prompt_elem.classList.remove("finished");
         clearImages();
         canDraw = true;
     } else if (op == 255) {
         // End event.
         console.log(`End, time over!`);
         canDraw = false;
-        prompt.textContent = "Put down your pens!";
-        prompt.classList.add("finished");
+        prompt_elem.textContent = "Put down your pens!";
+        prompt_elem.classList.add("finished");
         sendImage();
         clearCanvas(0);
     } else {
