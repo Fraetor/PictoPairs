@@ -58,6 +58,7 @@ class PictoChatServe:
             self.art   = []
             n_of_players = len(self.active_clients)
             # Assign players to teams
+            await asyncio.sleep(5)
             if n_of_players < 4 or n_of_players % 2 != 0:
                 continue  # Wait for players
 
@@ -80,7 +81,7 @@ class PictoChatServe:
             await self.send_art()
 
             mess = bytes((0,0,0,0, 251))
-            choice = random.choice(self.active_clients) 
+            choice = random.choice(list(self.active_clients)) 
             await choice.send(mess) 
 
             # Everyone gets to see the art
