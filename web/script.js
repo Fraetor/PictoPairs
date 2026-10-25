@@ -6,7 +6,7 @@ const ip = "pictopair.frost.cx";
 const socket = new WebSocket(`wss://${ip}`);
 const canvas = document.querySelector("#canvas");
 const ctx = canvas.getContext("2d");
-const scale = window.getComputedStyle(document.body).getPropertyValue("--scale");
+const scale = Math.floor(window.innerWidth / 220)
 const erase_btn = document.querySelector("#erase");
 
 let draw_x = 0;
