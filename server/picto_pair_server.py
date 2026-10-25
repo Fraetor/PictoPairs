@@ -28,7 +28,7 @@ class PictoChatServe():
         except KeyboardInterrupt:
             print("\nShutting down server...")
 
-    def serve(self): asyncio.run(self.begin_serve)
+    def serve(self): asyncio.run(self.begin_serve())
         
 
     def get_pair(self, socket):
