@@ -84,10 +84,12 @@ class PictoChatServe:
             self.active_prompt = random.choice(DEFAULT_PROMPTS)
 
     async def send_art(self):
+        print(f"[SENDING ART] {len(self.art)}")
         for client in self.active_clients:
             for artist, art in self.art:
                 if artist != client and self.get_pair(client) != artist:
-                    await client.send(art)
+                    print("HMMM")
+                    await client.send(bytes(0,0,0,0,253) + art.encode())
 
     async def send_end(self):
             for client in self.active_clients:
