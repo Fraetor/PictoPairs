@@ -88,7 +88,7 @@ class PictoChatServe:
         count = seconds
         while count > -1:
             for client in self.active_clients:
-                mess = bytes((seconds,0,0,0,252))
+                mess = bytes((count,0,0,0,252))
                 await client.send(mess)
             count -= 1
             await asyncio.sleep(1)
