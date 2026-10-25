@@ -37,7 +37,7 @@ function receiveEvent(event) {
         console.log(`Start, prompt: ${prompt_text}`);
         prompt.textContent = prompt_text;
         clearCanvas(0);
-        canDraw = true;
+        setTimeout(() => { canDraw = true }, 4000);
     } else if (op == 255) {
         // End event.
         console.log(`End, time over!`);
