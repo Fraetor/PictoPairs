@@ -12,6 +12,7 @@ const prompt = document.querySelector("#prompt");
 const decoder = new TextDecoder();
 const results = document.querySelector("#results");
 const drawing = document.querySelector("#drawing");
+const timer = document.querySelector("#timer");
 
 let draw_x = 0;
 let draw_y = 0;
@@ -37,6 +38,8 @@ function receiveEvent(event) {
     const [x1, y1, x2, y2, op, ...the_rest] = Array.from(data);
     if (op == 0 || op == 1) {
         drawLine(x1, y1, x2, y2, op);
+    } else if (op == 252) {
+        timer.value = x1;
     } else if (op == 253) {
         console.log("Received image.");
         displayImage(the_rest)
