@@ -111,7 +111,7 @@ class PictoChatServe:
                     print(f"[ERROR] Expected binary data from {addr}")
                     continue
 
-                if message.startswith(b'data:'): 
+                if data.startswith(b'data:'): 
                     # Art!
                     self.art.append((websocket, message))
                     
