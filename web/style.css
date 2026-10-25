@@ -29,7 +29,7 @@ h1 {
 #results {
     display: flex;
     flex-wrap: wrap;
-    background-color: lemonchiffon;
+    background-color: white;
     img {
         border: 1px solid black;
         width: 440px;
