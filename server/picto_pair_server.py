@@ -85,7 +85,7 @@ class PictoChatServe:
             await choice.send(mess) 
 
             # Everyone gets to see the art
-            await self.countdown(8)
+            await self.countdown(15)
 
             # Choose next prompt
 
