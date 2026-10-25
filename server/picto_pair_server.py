@@ -21,12 +21,15 @@ class PictoChatServe():
         self.active_prompt  = "A horse hosting HackNotts"
 
         self.pairs = []    # Active pairs    
-        ser = threading.Thread(target=lambda: asyncio.run(self.begin_serve))
+        ser = threading.Thread(target= self.serve())
         try:
             ser.run()
             asyncio.run(self.game_loop())
         except KeyboardInterrupt:
             print("\nShutting down server...")
+
+    def serve(self): asyncio.run(self.begin_serve)
+        
 
     def get_pair(self, socket):
         for p1, p2 in self.pairs:
