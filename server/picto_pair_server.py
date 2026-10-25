@@ -55,7 +55,7 @@ class PictoChatServe():
             players = list(players)
             random.shuffle(players)
 
-            self.pairs = zip(players[:n_of_players/2], players[n_of_players/2:])
+            self.pairs = zip(players[:n_of_players//2], players[n_of_players//2:])
             
             # Send prompt (start drawing!)
             self.send_promt()
