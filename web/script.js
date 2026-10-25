@@ -6,13 +6,14 @@ const ip = "pictopair.frost.cx";
 const socket = new WebSocket(`wss://${ip}`);
 const canvas = document.querySelector("#canvas");
 const ctx = canvas.getContext("2d");
-const scale = Math.floor(window.innerWidth / 220)
+const scale = Math.floor(canvas.offsetWidth / 220);
 const erase_btn = document.querySelector("#erase");
 
 let draw_x = 0;
 let draw_y = 0;
 let draw_op = 1;
 let isDrawing = false;
+let canDraw = true;
 
 function toggleErase(event) {
     if (draw_op == 0) {
@@ -27,8 +28,18 @@ function toggleErase(event) {
 function receiveEvent(event) {
     const data = new Uint8ClampedArray(event.data);
     console.log("Received:", data);
-    const [x1, y1, x2, y2, op] = Array.from(data);
-    drawLine(x1, y1, x2, y2, op);
+    const [x1, y1, x2, y2, op, ...the_rest] = Array.from(data);
+    if (op == 0 || op == 1) {
+        drawLine(x1, y1, x2, y2, op);
+    } else if (op == 254) {
+        // Start event.
+        console.log(`Start, prompt: ${the_rest}`);
+    } else if (op) {
+        // End event
+        console.log(`Stop.`);
+    } else {
+        console.error("Unknown event received.", data);
+    }
 }
 
 function sendEvent(x1, y1, x2, y2, op) {
@@ -54,9 +65,11 @@ function drawLine(x1, y1, x2, y2, op) {
 // event.offsetX, event.offsetY gives the (x,y) offset
 // from the edge of the canvas.
 function startDraw(event) {
-    draw_x = Math.floor(event.offsetX / scale);
-    draw_y = Math.floor(event.offsetY / scale);
-    isDrawing = true;
+    if (canDraw) {
+        draw_x = Math.floor(event.offsetX / scale);
+        draw_y = Math.floor(event.offsetY / scale);
+        isDrawing = true;
+    }
 }
 
 function contDraw(event) {
