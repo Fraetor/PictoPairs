@@ -49,10 +49,8 @@ class PictoChatServe:
     async def game_loop(self):
         while True:
             n_of_players = len(self.active_clients)
-            print(f"N Players: {n_of_players}")
             # Assign players to teams
             if n_of_players < 4 or n_of_players % 2 != 0:
-                print("Not enough players")
                 continue  # Wait for players
 
             players = self.active_clients.copy()
@@ -64,13 +62,13 @@ class PictoChatServe:
             print(self.pairs)
 
             # Send prompt (start drawing!)
-            self.send_prompt()
+            await self.send_prompt()
             break
 
-    def send_prompt(self):
+    async def send_prompt(self):
         for client in self.active_clients:
             print("[SENDING PROMPT]")
-            client.send(bytes((0, 0, 0, 0, 254)) + self.active_prompt.encode())
+            await client.send(bytes((0, 0, 0, 0, 254)) + self.active_prompt.encode())
 
     async def handle_client(self, websocket):
         addr = websocket.remote_address
