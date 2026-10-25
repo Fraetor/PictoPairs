@@ -70,7 +70,7 @@ class PictoChatServe:
     def send_promt(self):
         for client in self.active_clients:
             print("[SENDING PROMPT]")
-            client.send(bytes(0, 0, 0, 0, 254, self.active_prompt.encode()))
+            client.send(bytes((0, 0, 0, 0, 254)) + self.active_prompt.encode())
 
     async def handle_client(self, websocket):
         addr = websocket.remote_address
