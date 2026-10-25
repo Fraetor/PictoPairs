@@ -22,7 +22,7 @@ DEFAULT_PROMPTS = ["A horse hosting HackNotts",
 class PictoChatServe:
     def __init__(self):
         self.active_clients = set()
-        self.active_prompt = random.shuffle(DEFAULT_PROMPTS)
+        self.active_prompt = random.choice(DEFAULT_PROMPTS)
 
         self.pairs = []  # Active pairs
         self.art   = []
