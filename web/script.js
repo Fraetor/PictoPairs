@@ -44,15 +44,17 @@ function receiveEvent(event) {
         const prompt_text = decoder.decode(Uint8ClampedArray.from(the_rest));
         console.log(`Start, prompt: ${prompt_text}`);
         prompt.textContent = prompt_text;
+        prompt.classList.remove("finished");
         clearImages();
-        clearCanvas(0);
-        setTimeout(() => { canDraw = true }, 4000);
+        canDraw = true;
     } else if (op == 255) {
         // End event.
         console.log(`End, time over!`);
         canDraw = false;
-        alert("Put down your pens!");
+        prompt.textContent = "Put down your pens!";
+        prompt.classList.add("finished");
         sendImage();
+        clearCanvas(0);
     } else {
         console.error(`Unknown event received with op code ${op}.`, data);
     }

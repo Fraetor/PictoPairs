@@ -27,5 +27,10 @@ h1 {
 
 #results {
     display: flex;
-    /* flex-wrap: wrap; */
+    background-color: aquamarine;
+}
+
+.finished {
+    color: white;
+    background-color: brown;
 }
