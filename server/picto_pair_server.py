@@ -72,19 +72,26 @@ class PictoChatServe:
             # Send prompt (start drawing!)
             await self.send_prompt()
 
-            # Start Timer
-            await asyncio.sleep(20)
+            await self.countdown(25)
             await self.send_end()
             await asyncio.sleep(4)
 
             # Players should send back histories, and clear the canvas
             await self.send_art()
 
-            await asyncio.sleep(10)
-
+            await self.countdown(10)
 
             # Choose next prompt
             self.active_prompt = random.choice(DEFAULT_PROMPTS)
+
+    async def countdown(self, seconds):
+        count = seconds
+        while count > -1:
+            for client in self.active_clients:
+                mess = bytes(seconds,0,0,0,252)
+                await client.send()
+            count -= 1
+            await asyncio.sleep(1)
 
     async def send_art(self):
         print(f"[SENDING ART] {len(self.art)}")
