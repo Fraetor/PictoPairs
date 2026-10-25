@@ -44,6 +44,7 @@ function receiveEvent(event) {
         console.log(`End, time over!`);
         canDraw = false;
         alert("Put down your pens!");
+        sendImage();
     } else {
         console.error("Unknown event received.", data);
     }
@@ -105,6 +106,11 @@ function endDraw(event) {
         draw_y = 0;
         isDrawing = false;
     }
+}
+
+function sendImage() {
+    const png_data_url = canvas.toDataURL("image/png");
+    socket.send(png_data_url);
 }
 
 // Add the event listeners for pointer.
