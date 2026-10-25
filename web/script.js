@@ -37,13 +37,14 @@ function receiveEvent(event) {
         const prompt_text = new TextDecoder().decode(Uint8ClampedArray.from(the_rest));
         console.log(`Start, prompt: ${prompt_text}`);
         prompt.textContent = prompt_text;
-        clearCanvas();
+        clearCanvas(0);
         canDraw = true;
     } else if (op == 255) {
         // End event.
         console.log(`End, time over!`);
         canDraw = false;
         alert("Put down your pens!");
+        sendImage();
     } else {
         console.error("Unknown event received.", data);
     }
@@ -69,9 +70,10 @@ function drawLine(x1, y1, x2, y2, op) {
     }
 }
 
-function clearCanvas() {
-    for (let i = 0; i < 80; i++) {
-        drawLine(0, i, 255, i, 0);
+function clearCanvas(n) {
+    if (n < 80) {
+        drawLine(0, n, 255, n, 0);
+        setTimeout(clearCanvas, 50, n + 1)
     }
 }
 
@@ -104,6 +106,11 @@ function endDraw(event) {
         draw_y = 0;
         isDrawing = false;
     }
+}
+
+function sendImage() {
+    const png_data_url = canvas.toDataURL("image/png");
+    socket.send(png_data_url);
 }
 
 // Add the event listeners for pointer.
