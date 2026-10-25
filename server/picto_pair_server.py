@@ -174,8 +174,12 @@ class PictoChatServe:
         finally:
             self.active_clients.discard(websocket)
             for p1, p2 in self.pairs:
-                if websocket == p1 or websocket == p2:
+                if websocket == p1:
                     self.pairs.remove((p1,p2))
+                    self.pairs.append((None, p2))
+                elif websocket == p2:
+                    self.pairs.remove((p1,p2))
+                    self.pairs.append((p1, None))
 
             print("BYE BYE")
             print(f"[DISCONNECTED] {addr}")
