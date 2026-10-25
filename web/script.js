@@ -71,7 +71,7 @@ function displayImage(arr) {
     const image_url = decoder.decode(Uint8Array.from(arr));
     console.log(`Creating image element for URL ${image_url}`);
     const img = document.createElement("img");
-    img.href = image_url;
+    img.src = image_url;
     results.append(img);
     drawing.hidden = true;
     results.hidden = false;
