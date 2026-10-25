@@ -59,14 +59,19 @@ class PictoChatServe:
             n_of_players = len(self.active_clients)
             # Assign players to teams
             await asyncio.sleep(2)
-            if n_of_players < 4 or n_of_players % 2 != 0:
+            if n_of_players < 4:
                 continue  # Wait for players
 
             players = self.active_clients.copy()
             players = list(players)
             random.shuffle(players)
+            if n_of_players % 2 != 0:
+                #Solo player
+                self.pairs += (players[0], None)
+                n_of_players -= 1
+                players.pop(0)
 
-            self.pairs = list(zip(players[: n_of_players // 2], players[n_of_players // 2 :]))
+            self.pairs += list(zip(players[: n_of_players // 2], players[n_of_players // 2 :]))
             print("[PAIRS ASSIGNED]")
             print(self.pairs)
 
