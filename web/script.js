@@ -25,7 +25,7 @@ function toggleErase(event) {
 }
 
 function receiveEvent(event) {
-    const data = new Uint8Array(event.data);
+    const data = new Uint8ClampedArray(event.data);
     console.log("Received:", data);
     const [x1, y1, x2, y2, op] = Array.from(data);
     drawLine(x1, y1, x2, y2, op);
@@ -33,7 +33,7 @@ function receiveEvent(event) {
 
 function sendEvent(x1, y1, x2, y2, op) {
     console.log(`Sending: (${x1},${y1},${x2},${y2},${op})`);
-    socket.send(Uint8Array.from([x1, y1, x2, y2, op]));
+    socket.send(Uint8ClampedArray.from([x1, y1, x2, y2, op]));
     drawLine(x1, y1, x2, y2, op);
 }
 
