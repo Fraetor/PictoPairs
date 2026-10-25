@@ -59,15 +59,15 @@ class PictoChatServe:
             players = list(players)
             random.shuffle(players)
 
-            self.pairs = zip(players[: n_of_players // 2], players[n_of_players // 2 :])
+            self.pairs = list(zip(players[: n_of_players // 2], players[n_of_players // 2 :]))
             print("[PAIRS ASSIGNED]")
             print(self.pairs)
 
             # Send prompt (start drawing!)
-            self.send_promt()
+            self.send_prompt()
             break
 
-    def send_promt(self):
+    def send_prompt(self):
         for client in self.active_clients:
             print("[SENDING PROMPT]")
             client.send(bytes((0, 0, 0, 0, 254)) + self.active_prompt.encode())
