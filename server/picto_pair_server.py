@@ -58,6 +58,7 @@ class PictoChatServe():
             
             # Send prompt (start drawing!)
             self.send_promt()
+            exit()
 
     async def send_promt(self):
         async for client in self.active_clients:
