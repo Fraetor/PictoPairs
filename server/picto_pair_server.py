@@ -17,7 +17,8 @@ DEFAULT_PROMPTS = ["A horse hosting HackNotts",
                    "The smallest hacker ever",
                    "Haskell: finally useful",
                    "Hamster playing tetris",
-                   "Team 9 wins Hacknotts!"]
+                   "Team 9 wins Hacknotts!",
+                   "85kg of Quiche..."]
 
 class PictoChatServe:
     def __init__(self):
@@ -78,7 +79,8 @@ class PictoChatServe:
 
             # Players should send back histories, and clear the canvas
             await self.send_art()
-            await asyncio.sleep(5)
+            
+            await asyncio.sleep(30)
 
 
             # Choose next prompt
