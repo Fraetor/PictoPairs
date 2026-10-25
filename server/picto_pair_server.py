@@ -61,8 +61,8 @@ class PictoChatServe():
             self.send_promt()
             break
 
-    async def send_promt(self):
-        async for client in self.active_clients:
+    def send_promt(self):
+        for client in self.active_clients:
             client.send(bytes(0,0,0,0,254,self.active_prompt.encode()))
 
 
