@@ -1,6 +1,7 @@
 import asyncio
 from websockets.asyncio.server import serve
 import random
+import threading
 
 
 HOST = "::1"
@@ -22,8 +23,8 @@ class PictoChatServe():
         self.pairs = []    # Active pairs    
 
         try:
-            self.game_loop()
-            asyncio.run(self.begin_serve())
+            threading.Thread(target=self.begin_serve)
+            asyncio.run(self.game_loop())
         except KeyboardInterrupt:
             print("\nShutting down server...")
 
@@ -44,7 +45,7 @@ class PictoChatServe():
         ):
             await asyncio.Future()
 
-    def game_loop(self):
+    async def game_loop(self):
         while True:
             n_of_players = len(self.active_clients)
             # Assign players to teams
@@ -118,4 +119,3 @@ class PictoChatServe():
 
 if __name__ == "__main__":
     PictoChatServe()
-    
