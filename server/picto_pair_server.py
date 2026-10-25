@@ -108,11 +108,13 @@ class PictoChatServe:
 
         try:
             async for data in websocket:
-                if data.startswith('data:'): 
+                print(data)
+                if data.startswith(b'data:'): 
                     # Art!
                     self.art.append((websocket, message))
                     
                 elif isinstance(data, str):
+                    print(data)
                     print(f"[ERROR] Expected binary data from {addr}")
                     continue
                 try:
