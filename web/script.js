@@ -9,6 +9,9 @@ const ctx = canvas.getContext("2d");
 const scale = Math.floor(canvas.offsetWidth / 220);
 const erase_btn = document.querySelector("#erase");
 const prompt = document.querySelector("#prompt");
+const decoder = new TextDecoder();
+const results = document.querySelector("#results");
+const drawing = document.querySelector("#drawing");
 
 let draw_x = 0;
 let draw_y = 0;
@@ -31,11 +34,16 @@ function receiveEvent(event) {
     const [x1, y1, x2, y2, op, ...the_rest] = Array.from(data);
     if (op == 0 || op == 1) {
         drawLine(x1, y1, x2, y2, op);
+    } else if (op == 253) {
+        console.log("Received image.");
+        const image_url = decoder.decode(Uint8Array.from(the_rest))
+        displayImage(image_url)
     } else if (op == 254) {
         // Start event.
-        const prompt_text = new TextDecoder().decode(Uint8ClampedArray.from(the_rest));
+        const prompt_text = decoder.decode(Uint8ClampedArray.from(the_rest));
         console.log(`Start, prompt: ${prompt_text}`);
         prompt.textContent = prompt_text;
+        clearImages();
         clearCanvas(0);
         setTimeout(() => { canDraw = true }, 4000);
     } else if (op == 255) {
@@ -47,6 +55,20 @@ function receiveEvent(event) {
     } else {
         console.error("Unknown event received.", data);
     }
+}
+
+function clearImages() {
+    results.replaceChildren()
+    results.hidden = true;
+    drawing.hidden = false;
+}
+
+function displayImage(image_url) {
+    const img = document.createElement("img");
+    img.href = image_url;
+    results.append(img);
+    drawing.hidden = true;
+    results.hidden = false;
 }
 
 function sendEvent(x1, y1, x2, y2, op) {
