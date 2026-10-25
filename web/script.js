@@ -34,6 +34,7 @@ function receiveEvent(event) {
     const data = new Uint8ClampedArray(event.data);
     if (data.length == 0) {
         console.log("Zero length message received; skipping.");
+        return
     }
     const [x1, y1, x2, y2, op, ...the_rest] = Array.from(data);
     if (op == 0 || op == 1) {
