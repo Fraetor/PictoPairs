@@ -58,7 +58,7 @@ class PictoChatServe:
             self.art   = []
             n_of_players = len(self.active_clients)
             # Assign players to teams
-            await asyncio.sleep(5)
+            await asyncio.sleep(2)
             if n_of_players < 4 or n_of_players % 2 != 0:
                 continue  # Wait for players
 
@@ -73,7 +73,7 @@ class PictoChatServe:
             # Send prompt (start drawing!)
             await self.send_prompt()
 
-            await self.countdown(25)
+            await self.countdown(30)
             await self.send_end()
             await asyncio.sleep(2)
 
@@ -85,7 +85,7 @@ class PictoChatServe:
             await choice.send(mess) 
 
             # Everyone gets to see the art
-            await self.countdown(12)
+            await self.countdown(8)
 
             # Choose next prompt
 
@@ -173,6 +173,9 @@ class PictoChatServe:
 
         finally:
             self.active_clients.discard(websocket)
+            for p1, p2 in self.pairs:
+                if websocket == p1 or websocket == p2:
+                    self.pairs.remove((p1,p2))
 
             print("BYE BYE")
             print(f"[DISCONNECTED] {addr}")
