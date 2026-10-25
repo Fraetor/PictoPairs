@@ -34,7 +34,7 @@ function receiveEvent(event) {
         drawLine(x1, y1, x2, y2, op);
     } else if (op == 254) {
         // Start event.
-        const prompt = new TextDecoder().decode(the_rest);
+        const prompt = new TextDecoder().decode(Uint8ClampedArray.from(the_rest));
         console.log(`Start, prompt: ${prompt}`);
         prompt.textContent = prompt;
         canDraw = true;
