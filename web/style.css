@@ -1,5 +1,5 @@
 :root {
-    --scale: round(down, calc(100svw / 220px))
+    --scale: round(down, calc(80svw / 220px))
 }
 
 body {
