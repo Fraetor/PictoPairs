@@ -78,7 +78,7 @@ class PictoChatServe:
 
             # Players should send back histories, and clear the canvas
             await self.send_art()
-            
+
 
             # Choose next prompt
             self.active_prompt = random.choice(DEFAULT_PROMPTS)
@@ -108,14 +108,13 @@ class PictoChatServe:
 
         try:
             async for data in websocket:
-                if isinstance(data, str):
-                    print(f"[ERROR] Expected binary data from {addr}")
-                    continue
-
-                if data.startswith(b'data:'): 
+                if data.startswith('data:'): 
                     # Art!
                     self.art.append((websocket, message))
                     
+                elif isinstance(data, str):
+                    print(f"[ERROR] Expected binary data from {addr}")
+                    continue
                 try:
                     message = tuple(data)
 
